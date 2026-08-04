@@ -1,0 +1,78 @@
+/* шрифты из клиента: FRIZQT___CYR - весь интерфейс и тултипы,
+   MORPHEUS_CYR - заголовки квестов и книг */
+@font-face {
+  font-family: 'Friz Quadrata Cyr';
+  src: url('/fonts/FRIZQT___CYR.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Morpheus Cyr';
+  src: url('/fonts/MORPHEUS_CYR.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  --gold: #f5c451;
+  --gold-dim: #a8894a;
+  --muted: #93816a;
+  --rule: rgba(233, 215, 176, 0.16);
+  --text: #ddd2bd;
+  --class-color: #fff569;
+
+  --sans: 'Friz Quadrata Cyr', 'Segoe UI', system-ui, Helvetica, Arial, sans-serif;
+  --serif: 'Morpheus Cyr', 'Iowan Old Style', Palatino, Georgia, serif;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: #0e0a06;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
