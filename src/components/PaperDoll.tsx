@@ -1,6 +1,6 @@
 import type { ClassId, FactionId } from '@/data/schema'
 import type { CharacterClass } from '@/game'
-import { COSMETIC, isCosmetic, LEFT_COLUMN, RIGHT_COLUMN } from '@/game'
+import { COSMETIC, isCosmetic, LEFT_COLUMN, RIGHT_COLUMN, WEAPON_ROW } from '@/game'
 import { totalStats } from '@/lib/bis'
 
 import { EmptySlot } from './EmptySlot'
@@ -58,6 +58,14 @@ export function PaperDoll({
           <GearRow key={slot} slot={slot} side="right" view={view} />
         ))}
       </div>
+
+      {/* оружие лежит в той же сетке, чтобы вставать по центру колонок со
+          шмотом, а не всей страницы - слева от них ещё панель настроек */}
+      <section className="doll__weapons">
+        {WEAPON_ROW.filter((slot) => view.bySlot[slot]?.length).map((slot) => (
+          <GearRow key={slot} slot={slot} side="left" view={view} />
+        ))}
+      </section>
     </main>
   )
 }

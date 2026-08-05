@@ -1,14 +1,13 @@
 import { useCallback, useMemo, useState } from 'react'
 
 import type { GearView } from '@/components/gear'
-import { GearRow } from '@/components/GearRow'
 import { LevelDiff } from '@/components/LevelDiff'
 import { LevelSlider } from '@/components/LevelSlider'
 import { Masthead } from '@/components/Masthead'
 import { PaperDoll } from '@/components/PaperDoll'
 import { StaminaSlider } from '@/components/StaminaSlider'
 import type { BisData, SlotId } from '@/data/schema'
-import { findClass, findFaction, MIN_LEVEL, WEAPON_ROW } from '@/game'
+import { findClass, findFaction, MIN_LEVEL } from '@/game'
 import { useUrlState, type ViewState } from '@/hooks/useUrlState'
 import { expandLevels } from '@/lib/bis'
 import { cssVars } from '@/lib/css'
@@ -90,12 +89,6 @@ export default function App({ data }: { data: BisData }) {
         onFactionChange={(next) => reset({ faction: next })}
         onClassChange={(next) => reset({ cls: next })}
       />
-
-      <section className="doll__weapons">
-        {WEAPON_ROW.filter((slot) => bySlot[slot]?.length).map((slot) => (
-          <GearRow key={slot} slot={slot} side="left" view={view} />
-        ))}
-      </section>
 
       <footer className="footer">
         Только BOE, без профессий · данные клиента TBC Anniversary · иконки Wowhead · оценка по

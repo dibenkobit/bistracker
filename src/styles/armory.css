@@ -118,12 +118,15 @@
   align-self: flex-end;
 }
 
+/* от первой колонки со шмотом до правого края - панель настроек в счёт не идёт,
+   иначе оружие уезжает вправо от куклы */
 .doll__weapons {
+  grid-column: 2 / -1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px 26px;
-  margin-top: 22px;
+  margin-top: 30px;
 }
 
 .doll__weapons .cell {
@@ -211,6 +214,11 @@
   .doll__stage {
     grid-column: span 2;
     order: -1;
+  }
+
+  /* колонок стало две, и настройки в них уже не сбоку - центрировать не от чего */
+  .doll__weapons {
+    grid-column: 1 / -1;
   }
 }
 
