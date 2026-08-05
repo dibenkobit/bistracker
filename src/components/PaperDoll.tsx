@@ -43,7 +43,6 @@ export function PaperDoll({
               key={slot}
               name={COSMETIC[slot].name}
               icon={COSMETIC[slot].icon}
-              note="только для вида"
               side="left"
             />
           ) : (
