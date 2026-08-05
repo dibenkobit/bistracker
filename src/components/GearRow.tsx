@@ -6,6 +6,7 @@ import { isLongVariant } from '@/lib/diff'
 import { holdText, spanText } from '@/lib/text'
 
 import { AltList } from './AltList'
+import { EmptySlot } from './EmptySlot'
 import type { GearView } from './gear'
 import { Span } from './Span'
 import { Tooltip } from './Tooltip'
@@ -21,7 +22,10 @@ export function GearRow({ slot, side, view }: GearRowProps) {
   const variants = view.bySlot[slot]
   const worn = variants?.[0]
 
-  if (!worn || !variants) return <EmptySlot slot={slot} side={side} />
+  if (!worn || !variants)
+    return (
+      <EmptySlot name={SLOTS[slot]} icon={SLOT_ICON[slot]} note="нет варианта" side={side} />
+    )
 
   const open = view.open === slot
   const fresh = view.changed.includes(slot)
@@ -63,18 +67,6 @@ export function GearRow({ slot, side, view }: GearRowProps) {
         <Tooltip name={name} quality={q} item={worn.item} stats={worn.stats} low={worn.low} />
       </button>
       {open && <AltList variants={variants} side={side} long={view.long} level={view.level} />}
-    </div>
-  )
-}
-
-function EmptySlot({ slot, side }: { slot: SlotId; side: Side }) {
-  return (
-    <div className={`gear gear--${side} gear--empty`}>
-      <img className="gear__icon gear__icon--empty" src={iconUrl(SLOT_ICON[slot])} alt="" />
-      <div className="gear__text">
-        <span className="gear__slot">{SLOTS[slot]}</span>
-        <span className="gear__none">нет варианта</span>
-      </div>
     </div>
   )
 }

@@ -45,13 +45,26 @@ export const SLOT_ICON: Record<SlotId, string> = {
   ranged: 'inventoryslot_ranged',
 }
 
+// Рубашка и накидка на статы не влияют, поэтому в данных их нет и не будет.
+// Стоят пустыми - без них экран персонажа не тот.
+export type CosmeticId = 'shirt' | 'tabard'
+
+export const COSMETIC: Record<CosmeticId, { name: string; icon: string }> = {
+  shirt: { name: 'Рубашка', icon: 'inventoryslot_shirt' },
+  tabard: { name: 'Накидка', icon: 'inventoryslot_tabard' },
+}
+
+export const isCosmetic = (slot: SlotId | CosmeticId): slot is CosmeticId => slot in COSMETIC
+
 // левая и правая колонки как на экране персонажа
-export const LEFT_COLUMN: readonly SlotId[] = [
+export const LEFT_COLUMN: readonly (SlotId | CosmeticId)[] = [
   'head',
   'neck',
   'shoulder',
   'back',
   'chest',
+  'shirt',
+  'tabard',
   'wrist',
 ]
 export const RIGHT_COLUMN: readonly SlotId[] = [

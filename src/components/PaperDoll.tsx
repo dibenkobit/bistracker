@@ -1,8 +1,9 @@
 import type { ClassId, FactionId } from '@/data/schema'
 import type { CharacterClass } from '@/game'
-import { LEFT_COLUMN, RIGHT_COLUMN } from '@/game'
+import { COSMETIC, isCosmetic, LEFT_COLUMN, RIGHT_COLUMN } from '@/game'
 import { totalStats } from '@/lib/bis'
 
+import { EmptySlot } from './EmptySlot'
 import type { GearView } from './gear'
 import { GearRow } from './GearRow'
 import { SettingsPanel } from './SettingsPanel'
@@ -36,9 +37,19 @@ export function PaperDoll({
       />
 
       <div className="doll__col">
-        {LEFT_COLUMN.map((slot) => (
-          <GearRow key={slot} slot={slot} side="left" view={view} />
-        ))}
+        {LEFT_COLUMN.map((slot) =>
+          isCosmetic(slot) ? (
+            <EmptySlot
+              key={slot}
+              name={COSMETIC[slot].name}
+              icon={COSMETIC[slot].icon}
+              note="только для вида"
+              side="left"
+            />
+          ) : (
+            <GearRow key={slot} slot={slot} side="left" view={view} />
+          ),
+        )}
       </div>
 
       <SummaryPanel cls={active} totals={totalStats(view.bySlot)} />
