@@ -11,6 +11,10 @@ node_modules
 dist
 dist-ssr
 *.local
+coverage
+
+# TypeScript build info
+*.tsbuildinfo
 
 # Python
 __pycache__/
@@ -29,3 +33,6 @@ tools/cmangos
 *.njsproj
 *.sln
 *.sw?
+
+# Сгенерированный дубль src/data/bis.json
+tools/bis.json

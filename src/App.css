@@ -48,7 +48,9 @@
   border-radius: 3px;
   background: #0c0906;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .pick img {
@@ -83,7 +85,10 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--gold);
-  text-shadow: 0 0 3px #000, 0 0 3px #000, 0 1px 2px #000;
+  text-shadow:
+    0 0 3px #000,
+    0 0 3px #000,
+    0 1px 2px #000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.12s;
@@ -144,7 +149,6 @@
   grid-template-columns: repeat(3, max-content);
 }
 
-
 .crest {
   width: 54px;
   height: 54px;
@@ -190,7 +194,9 @@
   text-transform: uppercase;
   color: var(--muted);
   cursor: pointer;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
 }
 
 .mode + .mode {
@@ -273,7 +279,9 @@
   border-radius: 50%;
   background: var(--class-color);
   border: 3px solid #17100a;
-  box-shadow: 0 0 0 1px var(--class-color), 0 0 12px var(--class-color);
+  box-shadow:
+    0 0 0 1px var(--class-color),
+    0 0 12px var(--class-color);
   cursor: grab;
 }
 
@@ -365,8 +373,7 @@
 /* ---------- экран персонажа ---------- */
 .doll {
   display: grid;
-  grid-template-columns:
-    max-content minmax(220px, 1fr) minmax(190px, 0.7fr) minmax(220px, 1fr);
+  grid-template-columns: max-content minmax(220px, 1fr) minmax(190px, 0.7fr) minmax(220px, 1fr);
   gap: 22px;
   align-items: start;
 }
@@ -686,7 +693,9 @@
 .doll__stage .crest {
   width: 96px;
   height: 96px;
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.7), 0 0 24px -6px var(--class-color);
+  box-shadow:
+    0 0 18px rgba(0, 0, 0, 0.7),
+    0 0 24px -6px var(--class-color);
 }
 
 .stage__title {

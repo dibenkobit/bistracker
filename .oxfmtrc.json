@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 96,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "sortImports": true,
+  "ignorePatterns": ["dist", "package-lock.json", "**/*.md", "src/data/bis.json", "tools/**"]
+}

@@ -89,7 +89,14 @@ export const SLOT_ICON = {
 // левая и правая колонки как на экране персонажа
 export const LEFT_COLUMN = ['head', 'neck', 'shoulder', 'back', 'chest', 'wrist']
 export const RIGHT_COLUMN = [
-  'hands', 'waist', 'legs', 'feet', 'finger1', 'finger2', 'trinket1', 'trinket2',
+  'hands',
+  'waist',
+  'legs',
+  'feet',
+  'finger1',
+  'finger2',
+  'trinket1',
+  'trinket2',
 ]
 export const WEAPON_ROW = ['mainhand', 'offhand', 'twohand', 'ranged']
 
@@ -112,8 +119,15 @@ export const STAMINA_STEPS = [
 // что советуем качающемуся в одиночку. Тем, кто бьёт издалека, запаса жизни
 // нужно меньше: по ним просто реже попадают
 export const SOLO_STEP = {
-  warrior: 2, paladin: 2, rogue: 2, shaman: 2, druid: 2,
-  hunter: 1, mage: 1, warlock: 1, priest: 1,
+  warrior: 2,
+  paladin: 2,
+  rogue: 2,
+  shaman: 2,
+  druid: 2,
+  hunter: 1,
+  mage: 1,
+  warlock: 1,
+  priest: 1,
 }
 
 export const SOLO_WHY = {
@@ -161,11 +175,26 @@ export const STAT_NAMES = {
 
 // что показываем в сводке и в каком порядке
 export const SUMMARY_STATS = [
-  'Strength', 'Agility', 'Stamina', 'Intellect', 'Spirit',
-  'AttackPower', 'SpellDamage', 'SpellDamageArcane', 'SpellDamageFire',
-  'SpellDamageFrost', 'SpellDamageNature', 'SpellDamageShadow', 'SpellDamageHoly',
-  'CritRating', 'MeleeCritRating', 'RangedCritRating',
-  'HitRating', 'MeleeHitRating', 'RangedHitRating', 'Armor',
+  'Strength',
+  'Agility',
+  'Stamina',
+  'Intellect',
+  'Spirit',
+  'AttackPower',
+  'SpellDamage',
+  'SpellDamageArcane',
+  'SpellDamageFire',
+  'SpellDamageFrost',
+  'SpellDamageNature',
+  'SpellDamageShadow',
+  'SpellDamageHoly',
+  'CritRating',
+  'MeleeCritRating',
+  'RangedCritRating',
+  'HitRating',
+  'MeleeHitRating',
+  'RangedHitRating',
+  'Armor',
 ]
 
 // ---------- тултип как в игре ----------
@@ -174,20 +203,52 @@ export const SUMMARY_STATS = [
 
 // InventoryType -> левая ячейка первой строки тултипа
 export const INV_TYPE = {
-  1: 'Голова', 2: 'Шея', 3: 'Плечи', 5: 'Грудь', 6: 'Пояс', 7: 'Ноги',
-  8: 'Ступни', 9: 'Запястья', 10: 'Кисти рук', 11: 'Палец', 12: 'Аксессуар',
-  13: 'Одноручное', 14: 'Левая рука', 15: 'Дальний бой', 16: 'Спина',
-  17: 'Двуручное', 20: 'Грудь', 21: 'Правая рука', 22: 'Левая рука',
-  23: 'Левая рука', 25: 'Метательное оружие', 26: 'Дальний бой',
+  1: 'Голова',
+  2: 'Шея',
+  3: 'Плечи',
+  5: 'Грудь',
+  6: 'Пояс',
+  7: 'Ноги',
+  8: 'Ступни',
+  9: 'Запястья',
+  10: 'Кисти рук',
+  11: 'Палец',
+  12: 'Аксессуар',
+  13: 'Одноручное',
+  14: 'Левая рука',
+  15: 'Дальний бой',
+  16: 'Спина',
+  17: 'Двуручное',
+  20: 'Грудь',
+  21: 'Правая рука',
+  22: 'Левая рука',
+  23: 'Левая рука',
+  25: 'Метательное оружие',
+  26: 'Дальний бой',
 }
 
 // class.subclass -> правая ячейка (тип брони или оружия)
 export const ITEM_SUBTYPE = {
-  '2.0': 'Топор', '2.1': 'Топор', '2.2': 'Лук', '2.3': 'Огнестрельное',
-  '2.4': 'Дробящее', '2.5': 'Дробящее', '2.6': 'Древковое', '2.7': 'Меч',
-  '2.8': 'Меч', '2.10': 'Посох', '2.13': 'Кистевое оружие', '2.15': 'Кинжал',
-  '2.16': 'Метательное', '2.18': 'Арбалет', '2.19': 'Жезл',
-  '4.1': 'Ткань', '4.2': 'Кожа', '4.3': 'Кольчуга', '4.4': 'Латы', '4.6': 'Щит',
+  '2.0': 'Топор',
+  2.1: 'Топор',
+  2.2: 'Лук',
+  2.3: 'Огнестрельное',
+  2.4: 'Дробящее',
+  2.5: 'Дробящее',
+  2.6: 'Древковое',
+  2.7: 'Меч',
+  2.8: 'Меч',
+  '2.10': 'Посох',
+  2.13: 'Кистевое оружие',
+  2.15: 'Кинжал',
+  2.16: 'Метательное',
+  2.18: 'Арбалет',
+  2.19: 'Жезл',
+  4.1: 'Ткань',
+  4.2: 'Кожа',
+  4.3: 'Кольчуга',
+  4.4: 'Латы',
+  4.6: 'Щит',
 }
 
 // базовые характеристики идут белой строкой "+N к <дательный падеж>"

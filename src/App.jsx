@@ -1,11 +1,30 @@
 import { useEffect, useMemo, useState } from 'react'
+
 import data from './data/bis.json'
-import {
-  CLASSES, FACTIONS, QUALITY, SLOTS, SLOT_ICON, LEFT_COLUMN, RIGHT_COLUMN, WEAPON_ROW,
-  STAT_NAMES, SUMMARY_STATS, INV_TYPE, ITEM_SUBTYPE, BASE_STATS, EQUIP_EFFECT,
-  STAMINA_STEPS, SOLO_STEP, SOLO_WHY, MODES, wowheadUrl, iconUrl,
-} from './game'
 import { changedSlots, holdsUntil, longLived } from './diff'
+import {
+  CLASSES,
+  FACTIONS,
+  QUALITY,
+  SLOTS,
+  SLOT_ICON,
+  LEFT_COLUMN,
+  RIGHT_COLUMN,
+  WEAPON_ROW,
+  STAT_NAMES,
+  SUMMARY_STATS,
+  INV_TYPE,
+  ITEM_SUBTYPE,
+  BASE_STATS,
+  EQUIP_EFFECT,
+  STAMINA_STEPS,
+  SOLO_STEP,
+  SOLO_WHY,
+  MODES,
+  wowheadUrl,
+  iconUrl,
+} from './game'
+
 import './App.css'
 
 const MIN_LEVEL = 10
@@ -55,7 +74,9 @@ function Tooltip({ name, quality, item, stats, low }) {
 
   return (
     <div className="tip" role="tooltip">
-      <p className="tip__name" style={{ color: quality.color }}>{name}</p>
+      <p className="tip__name" style={{ color: quality.color }}>
+        {name}
+      </p>
       <p>Уровень предмета: {item.ilvl}</p>
       {item.boe && <p>Становится персональным при надевании</p>}
       {item.uniq && <p>Уникальный</p>}
@@ -68,7 +89,9 @@ function Tooltip({ name, quality, item, stats, low }) {
       {dps && (
         <>
           <p className="tip__row">
-            <span>Урон: {item.dmin}-{item.dmax}</span>
+            <span>
+              Урон: {item.dmin}-{item.dmax}
+            </span>
             <span>Скорость {item.speed.toFixed(2)}</span>
           </p>
           <p>({dps} ед. урона в секунду)</p>
@@ -77,17 +100,27 @@ function Tooltip({ name, quality, item, stats, low }) {
       {armor > 0 && <p>Броня: {Math.round(armor)}</p>}
 
       {Object.entries(BASE_STATS).map(([key, word]) =>
-        stats[key] ? <p key={key}>+{statText(stats, low, key)} к {word}</p> : null,
+        stats[key] ? (
+          <p key={key}>
+            +{statText(stats, low, key)} к {word}
+          </p>
+        ) : null,
       )}
 
-      {item.dura && <p>Прочность: {item.dura} / {item.dura}</p>}
+      {item.dura && (
+        <p>
+          Прочность: {item.dura} / {item.dura}
+        </p>
+      )}
       <p>Требуется {item.lvl}-й ур.</p>
 
       {Object.entries(stats).map(([key]) => {
         const effect = EQUIP_EFFECT[key]
-        return effect
-          ? <p className="tip__equip" key={key}>Если на персонаже: {effect(statText(stats, low, key))}</p>
-          : null
+        return effect ? (
+          <p className="tip__equip" key={key}>
+            Если на персонаже: {effect(statText(stats, low, key))}
+          </p>
+        ) : null
       })}
 
       {low && (
@@ -126,7 +159,11 @@ function Span({ from, to, level, color }) {
     <span className="span" aria-hidden="true">
       <span
         className="span__fill"
-        style={{ left: `${pos(from)}%`, width: `${pos(to + 1) - pos(from)}%`, background: color }}
+        style={{
+          left: `${pos(from)}%`,
+          width: `${pos(to + 1) - pos(from)}%`,
+          background: color,
+        }}
       />
       <span className="span__now" style={{ left: `${pos(level) + CELL / 2}%` }} />
     </span>
@@ -166,11 +203,15 @@ function AltList({ variants, side, long, level }) {
                   loading="lazy"
                 />
                 <span className="alt__text">
-                  <span className="alt__name" style={{ color: quality.color }}>{name}</span>
+                  <span className="alt__name" style={{ color: quality.color }}>
+                    {name}
+                  </span>
                   {/* вилка бывает и по статам, которые классу не нужны - тогда
                       очки от ролла не зависят и показывать нечего */}
                   {entry.lo && (
-                    <span className="alt__roll">ролл {entry.lo}-{entry.hi}%</span>
+                    <span className="alt__roll">
+                      ролл {entry.lo}-{entry.hi}%
+                    </span>
                   )}
                   {/* полоски стоят друг под другом и читаются как план покупок:
                       где кончается одна вещь, там начинается следующая */}
@@ -179,13 +220,14 @@ function AltList({ variants, side, long, level }) {
                   )}
                 </span>
                 <span className="alt__pct">
-                  {long
-                    ? spanText(entry, level)
-                    : n === 0 ? 'сейчас' : `${entry.pct}%`}
+                  {long ? spanText(entry, level) : n === 0 ? 'сейчас' : `${entry.pct}%`}
                 </span>
                 <Tooltip
-                  name={name} quality={quality} item={item}
-                  stats={entry.stats} low={entry.low}
+                  name={name}
+                  quality={quality}
+                  item={item}
+                  stats={entry.stats}
+                  low={entry.low}
                 />
               </a>
             </li>
@@ -230,23 +272,24 @@ function GearRow({ slot, variants, side, fresh, till, long, level, open, onToggl
           loading="lazy"
         />
         <div className="gear__text">
-          <span className="gear__name" style={{ color: quality.color }}>{name}</span>
+          <span className="gear__name" style={{ color: quality.color }}>
+            {name}
+          </span>
           <span className="gear__meta">
             {fresh && <span className="gear__new">новое</span>}
             {/* статы этой вещи выпадают при создании - какой достанется, видно
                 только в тултипе лота на аукционе */}
             {entry.low && <span className="gear__roll">ролл</span>}
-            <span className="gear__till">
-              {long ? spanText(entry, level) : holdText(till)}
-            </span>
+            <span className="gear__till">{long ? spanText(entry, level) : holdText(till)}</span>
           </span>
-          {long && (
-            <Span from={entry.from} to={entry.to} level={level} color={quality.color} />
-          )}
+          {long && <Span from={entry.from} to={entry.to} level={level} color={quality.color} />}
         </div>
         <Tooltip
-          name={name} quality={quality} item={item}
-          stats={entry.stats} low={entry.low}
+          name={name}
+          quality={quality}
+          item={item}
+          stats={entry.stats}
+          low={entry.low}
         />
       </button>
       {open && <AltList variants={variants} side={side} long={long} level={level} />}
@@ -258,11 +301,15 @@ function GearRow({ slot, variants, side, fresh, till, long, level, open, onToggl
 function LevelDiff({ level, changed }) {
   return (
     <p className="diff">
-      {level === MIN_LEVEL
-        ? 'Стартовый набор'
-        : changed.length
-          ? <>На {level} меняешь: <b>{slotList(changed)}</b></>
-          : `На ${level} ничего не меняется`}
+      {level === MIN_LEVEL ? (
+        'Стартовый набор'
+      ) : changed.length ? (
+        <>
+          На {level} меняешь: <b>{slotList(changed)}</b>
+        </>
+      ) : (
+        `На ${level} ничего не меняется`
+      )}
     </p>
   )
 }
@@ -357,8 +404,8 @@ export default function App() {
         <div>
           <h1>Оружейная</h1>
           <p className="masthead__sub">
-            {level} уровень · <span style={{ color: active.color }}>{active.name}</span>
-            {' '}· <span style={{ color: side.color }}>{side.name}</span>
+            {level} уровень · <span style={{ color: active.color }}>{active.name}</span> ·{' '}
+            <span style={{ color: side.color }}>{side.name}</span>
           </p>
         </div>
 
@@ -409,7 +456,9 @@ export default function App() {
         </div>
         <p className="stambar__hint">
           {stam === solo ? (
-            <>Столько советую, если качаешься <b>один</b>: {SOLO_WHY[solo]}</>
+            <>
+              Столько советую, если качаешься <b>один</b>: {SOLO_WHY[solo]}
+            </>
           ) : (
             <>
               {STAMINA_STEPS[stam].hint}. Качаешься один?{' '}
@@ -425,8 +474,8 @@ export default function App() {
         <LevelDiff level={level} changed={changed} />
       ) : (
         <p className="diff">
-          Что взять на {level}, чтобы дольше не трогать слот. Полоска — уровни, где
-          вещь остаётся в пределах 10% от лучшей, засечка — где ты сейчас.
+          Что взять на {level}, чтобы дольше не трогать слот. Полоска — уровни, где вещь
+          остаётся в пределах 10% от лучшей, засечка — где ты сейчас.
         </p>
       )}
 
@@ -473,10 +522,16 @@ export default function App() {
         <div className="doll__col">
           {LEFT_COLUMN.map((slot) => (
             <GearRow
-              key={slot} slot={slot} variants={bySlot[slot]} side="left"
-              fresh={changed.includes(slot)} till={till[slot]}
-              long={mode === 'long'} level={level}
-              open={open === slot} onToggle={() => setOpen(open === slot ? null : slot)}
+              key={slot}
+              slot={slot}
+              variants={bySlot[slot]}
+              side="left"
+              fresh={changed.includes(slot)}
+              till={till[slot]}
+              long={mode === 'long'}
+              level={level}
+              open={open === slot}
+              onToggle={() => setOpen(open === slot ? null : slot)}
             />
           ))}
         </div>
@@ -497,10 +552,16 @@ export default function App() {
         <div className="doll__col doll__col--right">
           {RIGHT_COLUMN.map((slot) => (
             <GearRow
-              key={slot} slot={slot} variants={bySlot[slot]} side="right"
-              fresh={changed.includes(slot)} till={till[slot]}
-              long={mode === 'long'} level={level}
-              open={open === slot} onToggle={() => setOpen(open === slot ? null : slot)}
+              key={slot}
+              slot={slot}
+              variants={bySlot[slot]}
+              side="right"
+              fresh={changed.includes(slot)}
+              till={till[slot]}
+              long={mode === 'long'}
+              level={level}
+              open={open === slot}
+              onToggle={() => setOpen(open === slot ? null : slot)}
             />
           ))}
         </div>
@@ -509,18 +570,23 @@ export default function App() {
       <section className="doll__weapons">
         {weapons.map((slot) => (
           <GearRow
-            key={slot} slot={slot} variants={bySlot[slot]} side="left"
-            fresh={changed.includes(slot)} till={till[slot]}
-            long={mode === 'long'} level={level}
-            open={open === slot} onToggle={() => setOpen(open === slot ? null : slot)}
+            key={slot}
+            slot={slot}
+            variants={bySlot[slot]}
+            side="left"
+            fresh={changed.includes(slot)}
+            till={till[slot]}
+            long={mode === 'long'}
+            level={level}
+            open={open === slot}
+            onToggle={() => setOpen(open === slot ? null : slot)}
           />
         ))}
       </section>
 
       <footer className="footer">
-        Только BOE, без профессий · данные клиента TBC Anniversary
-        {' '}· иконки Wowhead
-        {' '}· оценка по ДПС{stam ? ' с поправкой на выживание' : ''}
+        Только BOE, без профессий · данные клиента TBC Anniversary · иконки Wowhead · оценка по
+        ДПС{stam ? ' с поправкой на выживание' : ''}
       </footer>
     </div>
   )
