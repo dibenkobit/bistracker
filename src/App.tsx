@@ -14,8 +14,6 @@ import { expandLevels } from '@/lib/bis'
 import { cssVars } from '@/lib/css'
 import { changedSlots, holdsUntil, longLivedBySlot } from '@/lib/diff'
 
-import './App.css'
-
 export default function App({ data }: { data: BisData }) {
   const [state, update] = useUrlState()
   const { faction, cls, level, stam, mode } = state

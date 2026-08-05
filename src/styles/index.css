@@ -1,0 +1,9 @@
+/* Порядок важен: сначала шрифты, переменные и сброс, потом оформление -
+   от общего каркаса к отдельным блокам. */
+@import './base.css';
+@import './armory.css';
+@import './panel.css';
+@import './controls.css';
+@import './gear.css';
+@import './tooltip.css';
+@import './boot.css';

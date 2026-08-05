@@ -1,0 +1,105 @@
+/* ---------- ползунок ---------- */
+.levelbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0 8px;
+}
+
+.levelbar__cap {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.levelbar__slider {
+  flex: 1;
+  height: 4px;
+  appearance: none;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(233, 215, 176, 0.25), var(--class-color));
+}
+
+.levelbar__slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--class-color);
+  border: 3px solid #17100a;
+  box-shadow:
+    0 0 0 1px var(--class-color),
+    0 0 12px var(--class-color);
+  cursor: grab;
+}
+
+.levelbar__slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--class-color);
+  border: 3px solid #17100a;
+  cursor: grab;
+}
+
+.levelbar__num {
+  min-width: 44px;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: right;
+  color: var(--class-color);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- ползунок выносливости ---------- */
+/* он не про уровень, а про вкус, поэтому маленький и с подсказкой под ним */
+.stambar {
+  margin: 4px 0 10px;
+}
+
+.levelbar--stam {
+  max-width: 420px;
+  margin: 0;
+  gap: 10px;
+}
+
+.levelbar--stam .levelbar__slider {
+  height: 3px;
+}
+
+.levelbar--stam .levelbar__slider::-webkit-slider-thumb {
+  width: 13px;
+  height: 13px;
+  border-width: 2px;
+}
+
+.levelbar--stam .levelbar__slider::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-width: 2px;
+}
+
+/* вместо числа слово - оно длиннее и мельче */
+.levelbar__num--word {
+  min-width: 96px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.stambar__hint {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.stambar__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--class-color);
+  text-decoration: underline dotted;
+  cursor: pointer;
+}

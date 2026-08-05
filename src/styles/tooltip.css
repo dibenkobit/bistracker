@@ -1,0 +1,76 @@
+/* ---------- всплывающая подсказка ---------- */
+.tip {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 270px;
+  padding: 10px 12px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  /* тултип в игре почти чёрный, текст белый, а не в тон интерфейсу */
+  background: rgba(8, 6, 4, 0.97);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #fff;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.12s;
+  pointer-events: none;
+}
+
+.gear--right .tip,
+.alts--right .tip {
+  left: auto;
+  right: calc(100% + 10px);
+}
+
+.gear:hover .tip,
+.alt:hover .tip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tip__name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* строки в две колонки: слот-тип, урон-скорость */
+.tip__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* «Если на персонаже: ...» в игре зелёное */
+.tip__equip {
+  color: #1eff00;
+}
+
+/* предупреждение про ролл - в игре такие пояснения серые */
+.tip__roll {
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(233, 215, 176, 0.15);
+  font-size: 11.5px;
+  color: #b9a887;
+}
+
+@media (max-width: 980px) {
+  .tip {
+    left: 50%;
+    right: auto;
+    top: calc(100% + 8px);
+    transform: translateX(-50%);
+  }
+
+  .gear--right .tip,
+  .alts--right .tip {
+    left: 50%;
+    right: auto;
+  }
+}

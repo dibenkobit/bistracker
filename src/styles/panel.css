@@ -1,0 +1,156 @@
+/* ---------- кнопка-иконка как в создании персонажа ----------
+   невыбранная притушена, выбранная в цвете и обведена светящейся рамкой */
+.pick {
+  position: relative;
+  padding: 0;
+  border: 2px solid #35291b;
+  border-radius: 3px;
+  background: #0c0906;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.pick img {
+  display: block;
+  width: 58px;
+  height: 58px;
+  filter: saturate(0.5) brightness(0.6);
+  transition: filter 0.15s;
+}
+
+.pick:hover {
+  border-color: var(--gold-dim);
+}
+
+.pick:hover img,
+.pick.is-active img {
+  filter: none;
+}
+
+.pick.is-active {
+  border-color: var(--pick-color);
+  box-shadow: 0 0 11px color-mix(in srgb, var(--pick-color) 55%, transparent);
+}
+
+/* название пишется прямо на иконке и может вылезать за её край - как в игре */
+.pick__label {
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow:
+    0 0 3px #000,
+    0 0 3px #000,
+    0 1px 2px #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s;
+}
+
+.pick:hover,
+.pick.is-active {
+  z-index: 2;
+}
+
+.pick:hover .pick__label,
+.pick.is-active .pick__label {
+  opacity: 1;
+}
+
+/* ---------- панель настроек ----------
+   рамка со скосом внутрь, как у панели создания персонажа */
+/* рамка из клиента (UI-CharacterCreate-OuterBorder). в текстуре она П-образная,
+   верх в игре закрыт логотипом - здесь он собран зеркалом нижнего края */
+.panel {
+  padding: 4px 16px 16px;
+  /* края в текстуре разной толщины: слева 12px с мягкой тенью, справа 10,
+     снизу 9. срез и ширина совпадают, иначе рамку режет по живому */
+  border-style: solid;
+  border-width: 9px 10px 9px 12px;
+  border-image: url('/img/panel-border.png') 9 10 9 12 stretch;
+  background: linear-gradient(180deg, rgba(28, 19, 11, 0.92), rgba(8, 6, 4, 0.95));
+  /* по умолчанию фон залился бы и под рамку, а у неё по краю мягкая тень -
+     сквозь неё он просвечивал вторым контуром */
+  background-clip: padding-box;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
+}
+
+.panel__group + .panel__group {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+
+.panel__title {
+  margin: 14px 0 9px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--gold-dim);
+}
+
+.panel__row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.panel__row--grid {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+}
+
+.crest {
+  width: 54px;
+  height: 54px;
+  flex: none;
+  border: 1px solid var(--class-color);
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.masthead h1 {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: #e9d7b0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.masthead__sub {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (max-width: 980px) {
+  /* панель переезжает наверх, сетка классов вытягивается в ряд */
+  .panel {
+    grid-column: span 2;
+    order: -2;
+  }
+
+  .panel__row--grid {
+    grid-template-columns: repeat(9, max-content);
+    justify-content: center;
+  }
+}
+
+@media (max-width: 620px) {
+  .panel {
+    grid-column: span 1;
+  }
+
+  .panel__row--grid {
+    grid-template-columns: repeat(5, max-content);
+  }
+}

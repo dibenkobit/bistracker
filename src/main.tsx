@@ -5,7 +5,7 @@ import Armory from '@/Armory'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { Loading } from '@/components/Loading'
 
-import './index.css'
+import '@/styles/index.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('нет узла #root в index.html')
