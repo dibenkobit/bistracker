@@ -42,7 +42,7 @@ describe('readState', () => {
   })
 
   it('уровень за границами ползунка не берёт', () => {
-    expect(readState('?level=9').level).toBe(40)
+    expect(readState('?level=0').level).toBe(40)
     expect(readState('?level=61').level).toBe(40)
     expect(readState('?level=abc').level).toBe(40)
   })

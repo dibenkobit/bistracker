@@ -52,7 +52,7 @@ describe('App', () => {
   })
 
   it('на стартовом уровне сравнивать не с чем', () => {
-    setSearch('class=rogue&level=10&stam=0&mode=now')
+    setSearch('class=rogue&level=1&stam=0&mode=now')
     render(<App data={data} />)
 
     expect(screen.getByText('Стартовый набор')).toBeInTheDocument()

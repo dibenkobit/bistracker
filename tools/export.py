@@ -1,4 +1,4 @@
-"""Генерирует bis.json: лучший BOE-шмот для 9 классов на уровнях 10-60.
+"""Генерирует bis.json: лучший BOE-шмот для 9 классов на уровнях 1-60.
 
 На слот пишется не одна вещь, а топ-10: на аукционе лучшей может не оказаться,
 и тогда нужен ответ «что взять вместо». Первая строка списка - она и есть BiS.
@@ -130,7 +130,7 @@ for faction, side in FACTIONS.items():
     weap_ok = B.WEAPON[cls]
     bis_out[faction][cls] = {}
 
-    for lvl in range(10, 61):
+    for lvl in range(1, 61):
         armor_ok = B.ARMOR[cls](lvl) | {0}
 
         # отбор предметов от весов не зависит: фильтруем один раз, а считаем
@@ -179,9 +179,13 @@ for faction, side in FACTIONS.items():
                 top = max(c[0] for c in cands)
                 cands.sort(key=lambda c: (-round(100 * c[0] / top), c[1] != c[2], -c[0]))
 
+            if lvl < B.DUAL_WIELD_LEVEL:
+                ranked.pop('offhand', None)
             first = lambda slot, ranked=ranked: (
                 max(c[0] for c in ranked[slot]) if ranked.get(slot) else 0)
-            pair = (first('mainhand') + first('offhand')) * B.DUAL_WIELD_PENALTY
+            # штраф к попаданию берётся только с пары: одной руке промахов не добавляют
+            pair = ((first('mainhand') + first('offhand'))
+                    * (B.DUAL_WIELD_PENALTY if ranked.get('offhand') else 1))
             if first('twohand') > pair:
                 ranked.pop('mainhand', None), ranked.pop('offhand', None)
             else:
@@ -211,5 +215,5 @@ with open('bis.json', 'w', encoding='utf-8') as _out:
               _out, ensure_ascii=False, separators=(',', ':'))
 print('\nbis.json: %d предметов, %d строк, %d списков по %d вариантов'
       % (len(items_out), len(rows_out), len(lists_out), TOP))
-print('%d фракции x %d классов x 51 уровень x %d веса'
+print('%d фракции x %d классов x 60 уровней x %d веса'
       % (len(bis_out), len(B.WEIGHTS), len(B.STAMINA_STEPS)))

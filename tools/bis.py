@@ -162,6 +162,7 @@ def weights(cls, stam=0):
 
 OFFHAND_DPS_FACTOR = 0.5   # офф-хенд бьёт вполсилы
 DUAL_WIELD_PENALTY = 0.81  # бой двумя руками даёт +19% промахов на обе руки
+DUAL_WIELD_LEVEL = 10      # раньше бой двумя руками не выучить - левая рука пустая
 
 # ---------- справочники ----------
 ITEM_MOD = {0: 'Mana', 1: 'Health', 3: 'Agility', 4: 'Strength', 5: 'Intellect',
@@ -410,10 +411,14 @@ def run(cls, lvl, stam=0):
         show(SLOT.get(slot, slot), top(slot))
 
     # двуручка против пары одноручек
+    if lvl < DUAL_WIELD_LEVEL:
+        by_slot.pop(22, None)
     mh, off = top(21, n=1), top(22, oh=True, n=1)
     two = top(17, n=1)
+    # штраф к попаданию берётся только с пары: одной руке промахов не добавляют
     pair_score = ((points(mh[0]) if mh else 0)
-                  + (points(off[0], True) if off else 0)) * DUAL_WIELD_PENALTY
+                  + (points(off[0], True) if off else 0)
+                  ) * (DUAL_WIELD_PENALTY if off else 1)
     two_score = points(two[0]) if two else 0
     if two_score > pair_score:
         show('Двуручное', two)
