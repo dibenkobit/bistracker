@@ -15,6 +15,11 @@
     "typescript/consistent-type-imports": "error",
     "typescript/no-explicit-any": "error",
     "eslint/no-console": ["error", { "allow": ["warn", "error"] }],
+    // 50 строк на функцию для JSX мало: разметка занимает место, а дробить её
+    // ради счётчика - хуже, чем прочитать компонент целиком
+    "eslint/max-lines-per-function": ["warn", { "max": 120 }],
+    // корневой компонент по определению собирает все остальные
+    "import/max-dependencies": "off",
     // css и setup подключаются ради побочного эффекта, присваивать нечего
     "import/no-unassigned-import": "off",
     "unicorn/no-null": "off",

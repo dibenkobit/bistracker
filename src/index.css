@@ -76,3 +76,48 @@ button {
   background: none;
   cursor: pointer;
 }
+
+/* ---------- пока едут данные и если они не приехали ----------
+   bis.json весит четыре мегабайта и приезжает отдельным запросом, поэтому
+   у приложения есть заметное «до» - его и рисуем в тон интерфейсу */
+.boot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 100vh;
+  padding: 24px;
+  text-align: center;
+}
+
+.boot__title {
+  font-family: var(--serif);
+  font-size: 26px;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+}
+
+.boot__hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.boot--error .boot__title {
+  color: #c4362b;
+}
+
+.boot__retry {
+  margin-top: 10px;
+  padding: 7px 16px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 3px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.boot__retry:hover {
+  background: rgba(233, 215, 176, 0.1);
+}
