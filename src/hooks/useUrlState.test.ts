@@ -64,6 +64,7 @@ describe('stateToSearch', () => {
 describe('useUrlState', () => {
   beforeEach(() => {
     history.replaceState(null, '', '/?class=mage&level=30')
+    localStorage.clear()
     vi.useFakeTimers()
   })
   afterEach(() => vi.useRealTimers())
@@ -84,5 +85,35 @@ describe('useUrlState', () => {
     act(() => vi.runAllTimers())
     expect(location.search).toContain('level=32')
     expect(location.search).toContain('class=mage')
+  })
+
+  it('без адреса поднимает прошлый набор из хранилища', () => {
+    const { result: first } = renderHook(() => useUrlState())
+    act(() => first.current[1]({ cls: 'warrior', level: 55, mode: 'long' }))
+    act(() => vi.runAllTimers())
+
+    history.replaceState(null, '', '/')
+    const { result: again } = renderHook(() => useUrlState())
+
+    expect(again.current[0]).toMatchObject({ cls: 'warrior', level: 55, mode: 'long' })
+  })
+
+  it('в первый раз без адреса и хранилища берёт значения по умолчанию', () => {
+    history.replaceState(null, '', '/')
+
+    const { result } = renderHook(() => useUrlState())
+
+    expect(result.current[0]).toEqual(readState(''))
+  })
+
+  it('адрес главнее хранилища - по ссылке видно её набор', () => {
+    const { result: first } = renderHook(() => useUrlState())
+    act(() => first.current[1]({ cls: 'warrior', level: 55 }))
+    act(() => vi.runAllTimers())
+
+    history.replaceState(null, '', '/?class=priest&level=12&faction=horde&stam=0&mode=now')
+    const { result: shared } = renderHook(() => useUrlState())
+
+    expect(shared.current[0]).toMatchObject({ cls: 'priest', level: 12 })
   })
 })

@@ -12,7 +12,10 @@ import {
   type ModeId,
 } from '@/game'
 
-/** Всё, чем управляет пользователь. Живёт в адресе - ссылкой можно поделиться. */
+/**
+ * Всё, чем управляет пользователь. Живёт в адресе - ссылкой можно поделиться,
+ * а копия лежит в localStorage, чтобы вернуться к своему набору без ссылки.
+ */
 export interface ViewState {
   faction: FactionId
   cls: ClassId
@@ -30,6 +33,30 @@ const DEFAULT_LEVEL = 40
  * ограничивают частоту replaceState - поэтому адрес пишем с задержкой.
  */
 const WRITE_DELAY_MS = 200
+
+const STORAGE_KEY = 'armory:view'
+
+/**
+ * В хранилище лежит тот же самый набор параметров, что и в адресе: разбирает
+ * его та же readState, поэтому чужому или устаревшему содержимому отдельная
+ * проверка не нужна. Само хранилище бывает недоступно - в приватном режиме или
+ * в песочнице обращение к нему кидает исключение, тогда просто не запоминаем.
+ */
+function loadSearch(): string {
+  try {
+    return localStorage.getItem(STORAGE_KEY) ?? ''
+  } catch {
+    return ''
+  }
+}
+
+function saveSearch(search: string): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, search)
+  } catch {
+    // не запомнили - не беда, адрес всё равно на месте
+  }
+}
 
 export function readState(search: string): ViewState {
   const params = new URLSearchParams(search)
@@ -68,7 +95,8 @@ export const stateToSearch = ({ faction, cls, level, stam, mode }: ViewState): s
 
 /** Состояние вида и адрес - одно и то же: изменения уезжают в адрес с задержкой. */
 export function useUrlState(): [ViewState, (patch: Partial<ViewState>) => void] {
-  const [state, setState] = useState(() => readState(location.search))
+  // адрес главнее: пришли по ссылке - показываем её набор, а не свой прошлый
+  const [state, setState] = useState(() => readState(location.search || loadSearch()))
 
   const update = useCallback((patch: Partial<ViewState>) => {
     setState((prev) => ({ ...prev, ...patch }))
@@ -76,7 +104,9 @@ export function useUrlState(): [ViewState, (patch: Partial<ViewState>) => void] 
 
   useEffect(() => {
     const id = setTimeout(() => {
-      history.replaceState(null, '', `?${stateToSearch(state)}`)
+      const search = stateToSearch(state)
+      history.replaceState(null, '', `?${search}`)
+      saveSearch(search)
     }, WRITE_DELAY_MS)
     return () => clearTimeout(id)
   }, [state])
