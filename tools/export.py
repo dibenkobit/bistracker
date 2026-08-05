@@ -5,7 +5,10 @@
 
 Условия отбора: BOE, не требует профессии для надевания, достижим в игре.
 """
-import json, collections, csv
+import collections
+import csv
+import json
+
 import bis as B
 import faction as F
 
@@ -14,10 +17,12 @@ con, q = B.con, B.q
 FACTIONS = {'alliance': 'A', 'horde': 'H'}
 
 # иконки: Item.IconFileDataID -> ManifestInterfaceData -> имя файла на CDN Wowhead
-_fdid = {int(r['ID']): int(r['IconFileDataID'] or 0) for r in csv.DictReader(open('Item.csv'))}
-_name = {int(r['ID']): r['FileName'].rsplit('.', 1)[0].lower()
-         for r in csv.DictReader(open('ManifestInterfaceData.csv'))
-         if r['FilePath'].lower().startswith('interface\\icons')}
+with open('Item.csv', encoding='utf-8') as _f:
+    _fdid = {int(r['ID']): int(r['IconFileDataID'] or 0) for r in csv.DictReader(_f)}
+with open('ManifestInterfaceData.csv', encoding='utf-8') as _f:
+    _name = {int(r['ID']): r['FileName'].rsplit('.', 1)[0].lower()
+             for r in csv.DictReader(_f)
+             if r['FilePath'].lower().startswith('interface\\icons')}
 ICON = lambda entry: _name.get(_fdid.get(entry, 0))
 
 # ---------- кандидаты: статы считаем один раз, а не на каждый класс ----------
@@ -150,7 +155,9 @@ for faction, side in FACTIONS.items():
         steps = []
         for stam in B.STAMINA_STEPS:
             w = B.weights(cls, stam)
-            score = lambda st, oh=False: sum(
+            # w и score привязаны значением по умолчанию: иначе лямбда смотрела
+            # бы на переменную цикла, и следующий шаг ползунка менял бы её под ней
+            score = lambda st, oh=False, w=w: sum(
                 w.get(k, 0) * v * (B.OFFHAND_DPS_FACTOR if oh and k == 'WeaponDPS' else 1)
                 for k, v in st.items())
 
@@ -158,7 +165,7 @@ for faction, side in FACTIONS.items():
             for slot, it, sufname, grades in pool:
                 # кольца и аксессуары сортируем один раз на оба слота
                 for tgt in (['mainhand', 'offhand'] if slot == 'onehand' else [slot]):
-                    at = lambda st, oh=tgt == 'offhand': score(st, oh)
+                    at = lambda st, oh=tgt == 'offhand', score=score: score(st, oh)
                     exp = B.expected(grades, at)
                     if exp > 0:
                         got = [at(st) for st, _ in grades]
@@ -172,7 +179,8 @@ for faction, side in FACTIONS.items():
                 top = max(c[0] for c in cands)
                 cands.sort(key=lambda c: (-round(100 * c[0] / top), c[1] != c[2], -c[0]))
 
-            first = lambda slot: max(c[0] for c in ranked[slot]) if ranked.get(slot) else 0
+            first = lambda slot, ranked=ranked: (
+                max(c[0] for c in ranked[slot]) if ranked.get(slot) else 0)
             pair = (first('mainhand') + first('offhand')) * B.DUAL_WIELD_PENALTY
             if first('twohand') > pair:
                 ranked.pop('mainhand', None), ranked.pop('offhand', None)
@@ -197,9 +205,10 @@ for faction, side in FACTIONS.items():
         bis_out[faction][cls][lvl] = steps
     print('  %-9s %-8s готово' % (faction, cls))
 
-json.dump({'items': items_out, 'stam': B.STAMINA_STEPS,
-           'rows': rows_out, 'lists': lists_out, 'bis': bis_out},
-          open('bis.json', 'w'), ensure_ascii=False, separators=(',', ':'))
+with open('bis.json', 'w', encoding='utf-8') as _out:
+    json.dump({'items': items_out, 'stam': B.STAMINA_STEPS,
+               'rows': rows_out, 'lists': lists_out, 'bis': bis_out},
+              _out, ensure_ascii=False, separators=(',', ':'))
 print('\nbis.json: %d предметов, %d строк, %d списков по %d вариантов'
       % (len(items_out), len(rows_out), len(lists_out), TOP))
 print('%d фракции x %d классов x 51 уровень x %d веса'

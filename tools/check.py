@@ -11,7 +11,10 @@
 
     python3 check.py
 """
-import collections, json, re, urllib.request
+import collections
+import json
+import urllib.request
+
 import bis as B
 
 SETS = {  # только ДПС-наборы; название до дефиса - класс, из JSON берётся уровень

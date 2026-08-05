@@ -1,5 +1,8 @@
 """BiS по BOE-предметам для класса и уровня. Учитывает случайные суффиксы."""
-import sqlite3, sys, csv, collections
+import collections
+import csv
+import sqlite3
+import sys
 
 con = sqlite3.connect('cmangos/tbcmangos.sqlite')
 con.row_factory = sqlite3.Row
@@ -10,15 +13,15 @@ CLASS_ID = {'warrior': 1, 'paladin': 2, 'hunter': 3, 'rogue': 4, 'priest': 5,
             'shaman': 7, 'mage': 8, 'warlock': 9, 'druid': 11}
 
 ARMOR = {  # 1=ткань 2=кожа 3=кольчуга 4=латы 6=щит
-    'warrior': lambda l: {1, 2, 3, 4, 6} if l >= 40 else {1, 2, 3, 6},
-    'paladin': lambda l: {1, 2, 3, 4, 6} if l >= 40 else {1, 2, 3, 6},
-    'hunter':  lambda l: {1, 2, 3} if l >= 40 else {1, 2},
-    'shaman':  lambda l: {1, 2, 3, 6} if l >= 40 else {1, 2, 6},
-    'rogue':   lambda l: {1, 2},
-    'druid':   lambda l: {1, 2},
-    'priest':  lambda l: {1},
-    'mage':    lambda l: {1},
-    'warlock': lambda l: {1},
+    'warrior': lambda lvl: {1, 2, 3, 4, 6} if lvl >= 40 else {1, 2, 3, 6},
+    'paladin': lambda lvl: {1, 2, 3, 4, 6} if lvl >= 40 else {1, 2, 3, 6},
+    'hunter':  lambda lvl: {1, 2, 3} if lvl >= 40 else {1, 2},
+    'shaman':  lambda lvl: {1, 2, 3, 6} if lvl >= 40 else {1, 2, 6},
+    'rogue':   lambda lvl: {1, 2},
+    'druid':   lambda lvl: {1, 2},
+    'priest':  lambda lvl: {1},
+    'mage':    lambda lvl: {1},
+    'warlock': lambda lvl: {1},
 }
 # 0=топор1р 1=топор2р 2=лук 3=ружьё 4=булава1р 5=булава2р 6=древковое
 # 7=меч1р 8=меч2р 10=посох 13=кулачное 15=кинжал 16=метательное 18=арбалет 19=жезл
@@ -179,8 +182,13 @@ RATING = {32: 'MeleeHitRating', 64: 'RangedHitRating', 96: 'HitRating',
           768: 'CritRating', 1024: 'SpellCritRating'}
 
 spells = {r['Id']: r for r in q('SELECT * FROM spell_template')}
-sie = {int(r['ID']): r for r in csv.DictReader(open('sie.csv'))}          # SpellItemEnchantment
-irp = {int(r['ID']): r for r in csv.DictReader(open('irp.csv'))}          # ItemRandomProperties
+def _by_id(path):
+    with open(path, encoding='utf-8') as f:
+        return {int(r['ID']): r for r in csv.DictReader(f)}
+
+
+sie = _by_id('sie.csv')                    # SpellItemEnchantment: статы суффиксов
+irp = _by_id('irp.csv')                    # ItemRandomProperties: названия суффиксов
 rand_variants = collections.defaultdict(list)
 CHANCE = collections.defaultdict(dict)     # группа -> градация -> шанс выпасть
 for r in q('SELECT entry, ench, chance FROM item_enchantment_template'):

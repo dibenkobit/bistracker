@@ -2,7 +2,10 @@
 
 Импортируется из export.py. Запуск напрямую печатает отчёт по текущему bis.json.
 """
-import sys, csv, collections
+import collections
+import csv
+import sys
+
 sys.path.insert(0, '.')
 import bis as B
 
@@ -10,7 +13,8 @@ ALLI, HORDE = 2, 4                      # биты FactionGroup из FactionTemp
 RACES = {'A': 1 | 4 | 8 | 64 | 1024, 'H': 2 | 16 | 32 | 128 | 512}
 BIT = {'A': ALLI, 'H': HORDE}
 
-ft = {int(r['ID']): r for r in csv.DictReader(open('ft.csv'))}
+with open('ft.csv', encoding='utf-8') as _f:
+    ft = {int(r['ID']): r for r in csv.DictReader(_f)}
 
 
 def relation(tpl, bit):
@@ -55,7 +59,7 @@ for e, item, mn in B.q('SELECT entry, item, mincountOrRef FROM creature_loot_tem
     if mn < 0:
         via_ref[-mn].add(e)
 
-npc_faction = {e: f for e, f in B.q('SELECT entry, Faction FROM creature_template')}
+npc_faction = dict(B.q('SELECT entry, Faction FROM creature_template'))
 vendor_faction = collections.defaultdict(set)
 for e, item in B.q('SELECT entry, item FROM npc_vendor'):
     if e in npc_faction:
@@ -76,7 +80,7 @@ for row in B.q('SELECT RequiredRaces, %s FROM quest_template' % ','.join(_cols))
             quest_races[it].add(row[0])
 
 OBJECT_LOOT = {r[0] for r in B.q('SELECT item FROM gameobject_loot_template')}
-ITEM_RACE = {e: r for e, r in B.q('SELECT entry, AllowableRace FROM item_template')}
+ITEM_RACE = dict(B.q('SELECT entry, AllowableRace FROM item_template'))
 CRAFTED = set()
 for _n in (1, 2, 3):
     CRAFTED |= {r[0] for r in B.con.execute(
@@ -119,7 +123,8 @@ def available_to(item, side):
 
 if __name__ == '__main__':
     import json
-    d = json.load(open('bis.json'))
+    with open('bis.json', encoding='utf-8') as f:
+        d = json.load(f)
     locked = collections.defaultdict(list)
     for iid, meta in d['items'].items():
         i = int(iid)
