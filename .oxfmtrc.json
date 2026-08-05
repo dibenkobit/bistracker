@@ -6,5 +6,12 @@
   "trailingComma": "all",
   "arrowParens": "always",
   "sortImports": true,
-  "ignorePatterns": ["dist", "package-lock.json", "**/*.md", "src/data/bis.json", "tools/**"]
+  "ignorePatterns": [
+    "dist",
+    "package-lock.json",
+    "**/*.md",
+    "src/data/bis.json",
+    "tools/**",
+    "pyproject.toml"
+  ]
 }

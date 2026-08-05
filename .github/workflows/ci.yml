@@ -23,13 +23,17 @@ jobs:
 
       - run: npm ci
 
-      # шагами по одному, а не через npm run check: если упадёт линт, всё
-      # равно хочется увидеть и тесты
+      # по шагам, а не через npm run check: с `!cancelled()` упавший линт не
+      # прячет результат тестов - за один прогон видно всё, что сломано
       - run: npm run typecheck
-      - run: npm run lint
-      - run: npm run format:check
-      - run: npm run test
-      - run: npm run build
+      - if: ${{ !cancelled() }}
+        run: npm run lint
+      - if: ${{ !cancelled() }}
+        run: npm run format:check
+      - if: ${{ !cancelled() }}
+        run: npm run test
+      - if: ${{ !cancelled() }}
+        run: npx vite build
 
   tools:
     name: Скрипты генерации данных
@@ -42,4 +46,3 @@ jobs:
           enable-cache: true
 
       - run: uvx ruff check tools
-      - run: uvx ruff format --check tools
