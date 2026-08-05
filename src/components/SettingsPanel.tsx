@@ -29,7 +29,7 @@ export function SettingsPanel({
               onClick={() => onFactionChange(item.id)}
               title={`Список для стороны: ${item.name}`}
             >
-              <img src={item.crest} alt={item.name} />
+              <img src={item.crest} alt="" />
               <span className="pick__label">{item.name}</span>
             </button>
           ))}
@@ -47,7 +47,7 @@ export function SettingsPanel({
               onClick={() => onClassChange(item.id)}
               title={item.name}
             >
-              <img src={iconUrl(item.icon)} alt={item.name} />
+              <img src={iconUrl(item.icon)} alt="" />
               <span className="pick__label">{item.name}</span>
             </button>
           ))}

@@ -137,6 +137,7 @@ export interface BisData {
   stam: number[]
   rows: Row[]
   lists: ListEntry[][]
-  /** фракция -> класс -> уровень -> набор на каждое положение ползунка */
-  bis: Record<FactionId, Record<ClassId, Record<string, SlotSetup[]>>>
+  // фракция -> класс -> уровень -> набор на каждое положение ползунка.
+  // Класс или уровень может и отсутствовать - шлемов до 24 уровня в игре нет
+  bis: Record<FactionId, Partial<Record<ClassId, Record<string, SlotSetup[]>>>>
 }

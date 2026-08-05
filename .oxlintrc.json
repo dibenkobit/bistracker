@@ -28,5 +28,17 @@
     // role="group" на div - валидный ARIA, предлагаемые теги сюда не подходят
     "jsx-a11y/prefer-tag-over-role": "off"
   },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx"],
+      "rules": {
+        // ?. и ?? в тестах - это сужение типа под noUncheckedIndexedAccess,
+        // а не ветвление логики
+        "vitest/no-conditional-in-test": "off",
+        // явный undefined в аргументе и есть проверяемый случай
+        "unicorn/no-useless-undefined": "off"
+      }
+    }
+  ],
   "ignorePatterns": ["dist", "tools"]
 }
